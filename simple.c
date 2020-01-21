@@ -8,7 +8,7 @@
 #define BUFFER_SIZE 128
 #define PROC_NAME "jiffies"
 
-size_t proc_read(struct file *file, char __user *usr_buf, size_t count, loff_t *pos);
+ssize_t proc_read(struct file *file, char __user *usr_buf, size_t count, loff_t *pos);
 
 static struct file_operations proc_ops = {
     .owner = THIS_MODULE,
@@ -26,7 +26,7 @@ void proc_exit(void)
   remove_proc_entry(PROC_NAME, NULL);
 }
 
-size_t proc_read(struct file *file, char __user *usr_buf, size_t count, loff_t *pos)
+ssize_t proc_read(struct file *file, char __user *usr_buf, size_t count, loff_t *pos)
 {
   int rv = 0;
   char buffer[BUFFER_SIZE];
@@ -40,7 +40,7 @@ size_t proc_read(struct file *file, char __user *usr_buf, size_t count, loff_t *
 
   completed = 1;
 
-  rv = sprintf(buffer, "Hello World\n");
+  rv = sprintf(buffer, "%s%d", "The value of jiffies is: ", jiffies);
   copy_to_user(usr_buf, buffer, rv);
 
   return rv;
