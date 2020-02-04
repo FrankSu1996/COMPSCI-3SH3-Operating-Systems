@@ -1,5 +1,8 @@
-obj-m += practice1.o
-all:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+consumer:
+	gcc practice2Consumer.c -lrt
+
+producer:
+	gcc  practice2Producer.c -lrt
+
 clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	rm *.o *.out
