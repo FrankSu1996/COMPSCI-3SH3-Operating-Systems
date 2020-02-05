@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     timeval_t startTime;
     gettimeofday(&startTime, NULL);
     //write to pipe and close it
-    write(fd[WRITE_END]);
+    write(fd[WRITE_END], startTime);
     close(fd[WRITE_END]);
     //execute command specified from command line
     execvp(argv[1], argv + 1);
@@ -56,7 +56,9 @@ int main(int argc, char *argv[])
     timeval_t endTime;
     gettimeofday(&endTime, NULL);
     //get the start time from shared memory
-    timeval_t startTime = *sharedMemory;
+    timeval_t startTime;
+    close(fd[WRITE_END]);
+    read(fd[READ_END], startTime);
     //calculate elapsed time
     timeval_t elapsedTime;
     timersub(&endTime, &startTime, &elapsedTime);
