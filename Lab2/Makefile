@@ -1,6 +1,9 @@
 question1:
 	gcc time-shm.c -lrt
 
+question2:
+	gcc time-shm.c -lrt
+
 producer:
 	gcc practice2Producer.c -lrt
 

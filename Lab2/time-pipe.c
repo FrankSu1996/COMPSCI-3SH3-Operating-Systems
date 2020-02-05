@@ -7,27 +7,22 @@
 #include <sys/mman.h>
 #include <sys/time.h>
 
+#define BUFFER_SIZE 2096
+#define READ_END 0
+#define WRITE_END 1
+
 //alias for timeval struct
 typedef struct timeval timeval_t;
-//size of shared memory object
-const int SIZE = 4096;
-//name of shared memory object
-const char *name = "SHM";
 
 int main(int argc, char *argv[])
 {
-  //size of shared memory object
-  const int SIZE = 4096;
-  //name of shared memory object
-  const char *name = "OS";
-  //shared memory file descriptor
-  int shm_fd;
-  //create shared memory object
-  shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
-  //configure size of shared memory object
-  ftruncate(shm_fd, SIZE);
-  //memory map the shared memory object
-  timeval_t *sharedMemory = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+
+  //Pipe creation
+  int fd[2];
+  if (pipe(fd) == -1)
+  {
+    fprintf(stderr, "Pipe failed");
+  }
 
   //fork a child process
   pid_t pid;
@@ -42,8 +37,14 @@ int main(int argc, char *argv[])
   //child process
   else if (pid == 0)
   {
-    //save time of day to shared memory
-    gettimeofday(sharedMemory, NULL);
+    //close unused end of the pipe
+    close(fd[READ_END]);
+    //save time of day before command
+    timeval_t startTime;
+    gettimeofday(&startTime, NULL);
+    //write to pipe and close it
+    write(fd[WRITE_END]);
+    close(fd[WRITE_END]);
     //execute command specified from command line
     execvp(argv[1], argv + 1);
   }
@@ -61,7 +62,5 @@ int main(int argc, char *argv[])
     timersub(&endTime, &startTime, &elapsedTime);
     //print elapsed time
     printf("\nElapsed time: %d.%06d seconds\n", elapsedTime.tv_sec, elapsedTime.tv_usec);
-    //remove the shared memory object
-    shm_unlink(name);
   }
 }
