@@ -13,7 +13,7 @@ int main()
   //name of shared memory object
   const char *name = "OS";
   //message to write to shared memory
-  const char *message = "Lab2 Practice";
+  const int message = 123456;
 
   //shared memory file descriptor
   int shm_fd;
@@ -30,7 +30,6 @@ int main()
   ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
 
   //write to the shared memory object
-  sprintf(ptr, "%s", message);
+  sprintf(ptr, "%d", message);
   printf("%s%s", "Wrote message to: ", name);
-  ptr += strlen(message);
 }
