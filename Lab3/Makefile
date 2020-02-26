@@ -2,4 +2,7 @@ question1:
 	gcc -pthread question1.c
 
 question2:
-	gcc time-shm.c -lrt
+	gcc -pthread question2.c
+
+clean:
+	rm *.out

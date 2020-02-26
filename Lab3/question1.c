@@ -19,6 +19,49 @@ typedef struct data_structure
   int *values;
 } data_structure;
 
+void *calcAverage(void *ptr)
+{
+  data_structure *data;
+  data = (data_structure *)ptr;
+
+  for (int i = 0; i < data->size; i++)
+  {
+    average += (data->values[i]);
+  }
+  average = (int)(average / data->size);
+}
+
+void *calcMinimum(void *ptr)
+{
+  data_structure *data;
+  data = (data_structure *)ptr;
+  minimum = (data->values[0]);
+
+  for (int i = 1; i < data->size; i++)
+  {
+    if (minimum > (data->values[i]))
+    {
+      minimum = (data->values[i]);
+    }
+  }
+}
+
+void *calcMaximum(void *ptr)
+{
+  data_structure *data;
+  data = (data_structure *)ptr;
+  maximum = data->values[0];
+
+  for (int i = 1; i < data->size; i++)
+  {
+    if (maximum < data->values[i])
+    {
+      maximum = data->values[i];
+    }
+  }
+  return 0;
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -73,57 +116,4 @@ int main(int argc, char *argv[])
   printf("The maximum value is %d\n", maximum);
 
   exit(EXIT_SUCCESS);
-}
-
-void *calcAverage(void *ptr)
-{
-  data_structure *data;
-  data = (data_structure *)ptr;
-
-  int length = data->size;
-  int i;
-
-  for (i = 0; i < length; i++)
-  {
-    average += (data->values[i]);
-  }
-  average = (int)(average / length);
-}
-
-void *calcMinimum(void *ptr)
-{
-  data_structure *data;
-  data = (data_structure *)ptr;
-
-  int length = data->size;
-  int i;
-
-  minimum = (data->values[0]);
-  for (i = 1; i < length; i++)
-  {
-    if (minimum > (data->values[i]))
-    {
-      minimum = (data->values[i]);
-    }
-  }
-}
-
-void *calcMaximum(void *ptr)
-{
-  data_structure *data;
-  data = (data_structure *)ptr;
-
-  int length = data->size;
-  int i;
-
-  maximum = data->values[0];
-
-  for (i = 1; i < length; i++)
-  {
-    if (maximum < data->values[i])
-    {
-      maximum = data->values[i];
-    }
-  }
-  return 0;
 }
