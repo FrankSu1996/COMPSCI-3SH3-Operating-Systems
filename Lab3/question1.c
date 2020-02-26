@@ -22,6 +22,13 @@ typedef struct data
 int main(int argc, char *argv[])
 {
 
+  //user must enter at least 1 number
+  if (argc <= 1)
+  {
+    printf("You must provide at least 1 number!\n");
+    exit(1);
+  }
+
   int i = 0;
   int temp[argc - 1];
   for (i; i < (argc - 1); i++)
