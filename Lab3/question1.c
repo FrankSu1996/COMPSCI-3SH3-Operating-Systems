@@ -13,11 +13,11 @@ double average;
 int minimum;
 int maximum;
 
-typedef struct data
+typedef struct data_structure
 {
   int size;
   int *values;
-} data;
+} data_structure;
 
 int main(int argc, char *argv[])
 {
@@ -37,12 +37,10 @@ int main(int argc, char *argv[])
   }
 
   pthread_t thread1, thread2, thread3;
-  const char *msg1 = "This is Thread 1";
-  const char *msg2 = "This is Thread 2";
-  const char *msg3 = "This is Thread 3";
+
   int td1, td2, td3;
 
-  data data_s = {argc - 1, temp};
+  data_structure data_s = {argc - 1, temp};
 
   /* Create independent threadata_s each of which will execute appropriate function*/
   td1 = pthread_create(&thread1, NULL, (void *)calcAverage, (void *)&data_s);
@@ -79,52 +77,52 @@ int main(int argc, char *argv[])
 
 void *calcAverage(void *ptr)
 {
-  data *temp;
-  temp = (data *)ptr;
+  data_structure *data;
+  data = (data_structure *)ptr;
 
-  int sz = temp->size;
+  int length = data->size;
   int i;
 
-  for (i = 0; i < sz; i++)
+  for (i = 0; i < length; i++)
   {
-    average += (temp->values[i]);
+    average += (data->values[i]);
   }
-  average = (int)(average / sz);
+  average = (int)(average / length);
 }
 
 void *calcMinimum(void *ptr)
 {
-  data *temp;
-  temp = (data *)ptr;
+  data_structure *data;
+  data = (data_structure *)ptr;
 
-  int sz = temp->size;
+  int length = data->size;
   int i;
 
-  minimum = (temp->values[0]);
-  for (i = 1; i < sz; i++)
+  minimum = (data->values[0]);
+  for (i = 1; i < length; i++)
   {
-    if (minimum > (temp->values[i]))
+    if (minimum > (data->values[i]))
     {
-      minimum = (temp->values[i]);
+      minimum = (data->values[i]);
     }
   }
 }
 
 void *calcMaximum(void *ptr)
 {
-  data *temp;
-  temp = (data *)ptr;
+  data_structure *data;
+  data = (data_structure *)ptr;
 
-  int sz = temp->size;
+  int length = data->size;
   int i;
 
-  maximum = temp->values[0];
+  maximum = data->values[0];
 
-  for (i = 1; i < sz; i++)
+  for (i = 1; i < length; i++)
   {
-    if (maximum < temp->values[i])
+    if (maximum < data->values[i])
     {
-      maximum = temp->values[i];
+      maximum = data->values[i];
     }
   }
   return 0;

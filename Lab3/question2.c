@@ -33,14 +33,14 @@ void printPrimes(int *n)
   int foundPrimeFlag;
   int limit = *n;
   //loop from 1 to limit, check for primality
-  for (int k = 1; k <= limit; k++)
+  for (int potentialPrime = 1; potentialPrime <= limit; potentialPrime++)
   {
     foundPrimeFlag = 0;
-    //only need to check to k/2
-    for (int i = 2; i <= k / 2; ++i)
+    //only need to check to potentialPrime/2
+    for (int i = 2; i <= potentialPrime / 2; ++i)
     {
       // condition for prime number
-      if (k % i == 0)
+      if (potentialPrime % i == 0)
       {
         foundPrimeFlag = 1;
         break;
@@ -49,7 +49,7 @@ void printPrimes(int *n)
 
     //print out prime number
     if (foundPrimeFlag == 0)
-      printf("%d ", k);
+      printf("%d ", potentialPrime);
   }
   printf("\n");
 }
