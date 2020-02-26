@@ -2,10 +2,13 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+//function declarations for calculating average, minimum, and maximum
 void *calcAverage(void *str);
 void *calcMinimum(void *ptr);
 void *calcMaximum(void *ptr);
 
+//store average, min, max as global variables
+//threads will update using calc functions as starting routine
 double average;
 int minimum;
 int maximum;
@@ -32,8 +35,6 @@ int main(int argc, char *argv[])
   const char *msg3 = "This is Thread 3";
   int td1, td2, td3;
 
-  printf("Running: %s\n", argv[0]);
-
   data data_s = {argc - 1, temp};
 
   /* Create independent threadata_s each of which will execute appropriate function*/
@@ -58,17 +59,13 @@ int main(int argc, char *argv[])
     exit(EXIT_FAILURE);
   }
 
-  printf("pthread_create() for Thread 1 : %d\n", td1);
-  printf("pthread_create() for Thread 2 : %d\n", td2);
-  printf("pthread_create() for Thread 3 : %d\n\n", td3);
-
   pthread_join(thread1, NULL);
   pthread_join(thread2, NULL);
   pthread_join(thread3, NULL);
 
-  printf("The average: %g\n", average);
-  printf("The minimum: %d\n", minimum);
-  printf("The maximum: %d\n", maximum);
+  printf("The average value is %g\n", average);
+  printf("The minimum value is %d\n", minimum);
+  printf("The maximum value is %d\n", maximum);
 
   exit(EXIT_SUCCESS);
 }
