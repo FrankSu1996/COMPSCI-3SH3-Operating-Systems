@@ -41,14 +41,16 @@ void init()
 }
 
 //function to simulate eating: will sleep for eating_time seconds
-void eat(int eating_time)
+void eat(int eating_time, int philosopherNumber)
 {
+    printf("Philosopher %d is eating...\n", philosopherNumber);
     sleep(eating_time);
 }
 
 //function to simulate thinking: will sleep for thinking_time seconds
-void think(int thinking_time)
+void think(int thinking_time, int philosopherNumber)
 {
+    printf("Philosopher %d is thinking...\n", philosopherNumber);
     sleep(thinking_time);
 }
 
@@ -67,15 +69,15 @@ void *philosopherStartRoutine(void *id)
         sleep_time = (int)((random() % MAX_SLEEP_TIME + 1));
 
         //each philospher starts off thinking
-        think(sleep_time);
+        think(sleep_time, philosopherNumber);
 
         //then picks up forks, eats, and puts forks back down
         pickup_forks(philosopherNumber);
-        printf("Philosopher %d is eating...\n", philosopherNumber);
+        
         sleep_time = (int)((random() % MAX_SLEEP_TIME + 1));
-        eat(sleep_time);
+        eat(sleep_time, philosopherNumber);
         return_forks(philosopherNumber);
-        printf("Philosopher %d is thinking...\n", philosopherNumber);
+        
     }
 }
 
